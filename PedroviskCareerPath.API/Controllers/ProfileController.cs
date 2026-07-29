@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
 using PedroviskCareerPath.API.Models;
@@ -31,6 +32,7 @@ public class ProfileController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Profile>> Create(Profile profile)
     {
         _context.Profiles.Add(profile);
@@ -39,6 +41,7 @@ public class ProfileController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> Update(int id, Profile profile)
     {
         if (id != profile.Id) return BadRequest();
@@ -48,6 +51,7 @@ public class ProfileController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var profile = await _context.Profiles.FindAsync(id);

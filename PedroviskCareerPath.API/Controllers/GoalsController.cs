@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
 using PedroviskCareerPath.API.Models;
@@ -31,6 +32,7 @@ public class GoalsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Goal>> Create(Goal goal)
     {
         _context.Goals.Add(goal);
@@ -39,6 +41,7 @@ public class GoalsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> Update(int id, Goal goal)
     {
         if (id != goal.Id) return BadRequest();
@@ -48,6 +51,7 @@ public class GoalsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var goal = await _context.Goals.FindAsync(id);

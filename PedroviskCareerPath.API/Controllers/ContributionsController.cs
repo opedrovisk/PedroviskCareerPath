@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
 using PedroviskCareerPath.API.Models;
@@ -31,6 +32,7 @@ public class ContributionsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Contribution>> Create(Contribution contribution)
     {
         _context.Contributions.Add(contribution);
@@ -39,6 +41,7 @@ public class ContributionsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> Update(int id, Contribution contribution)
     {
         if (id != contribution.Id) return BadRequest();
@@ -48,6 +51,7 @@ public class ContributionsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var contribution = await _context.Contributions.FindAsync(id);

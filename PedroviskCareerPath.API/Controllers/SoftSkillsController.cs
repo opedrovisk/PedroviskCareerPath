@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
 using PedroviskCareerPath.API.Models;
@@ -31,6 +32,7 @@ public class SoftSkillsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<SoftSkill>> Create(SoftSkill skill)
     {
         _context.SoftSkills.Add(skill);
@@ -39,6 +41,7 @@ public class SoftSkillsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> Update(int id, SoftSkill skill)
     {
         if (id != skill.Id) return BadRequest();
@@ -48,6 +51,7 @@ public class SoftSkillsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var skill = await _context.SoftSkills.FindAsync(id);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
 using PedroviskCareerPath.API.Models;
@@ -31,6 +32,7 @@ public class RoadmapController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<RoadmapItem>> Create(RoadmapItem item)
     {
         _context.RoadmapItems.Add(item);
@@ -39,6 +41,7 @@ public class RoadmapController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> Update(int id, RoadmapItem item)
     {
         if (id != item.Id) return BadRequest();
@@ -48,6 +51,7 @@ public class RoadmapController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var item = await _context.RoadmapItems.FindAsync(id);
