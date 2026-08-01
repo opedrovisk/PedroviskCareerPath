@@ -1,10 +1,9 @@
 import { api } from './api'
-import type { Profile } from '../types'
+import type { Goal } from '../types'
 
-export const profileService = {
-    getAll: () => api.get<Profile[]>('/api/profile'),
-    getById: (id: number) => api.get<Profile>(`/api/profile/${id}`),
-    create: (profile: Omit<Profile, 'id'>) => api.post<Profile>('/api/profile', profile),
-    update: (id: number, profile: Profile) => api.put<void>(`/api/profile/${id}`, profile),
-    delete: (id: number) => api.delete<void>(`/api/profile/${id}`),
+export const goalsService = {
+    getAll: () => api.get<Goal[]>('/api/goals'),
+    create: (goal: Omit<Goal, 'id'>) => api.post<Goal>('/api/goals', goal),
+    update: (id: number, goal: Goal) => api.put<void>(`/api/goals/${id}`, goal),
+    delete: (id: number) => api.delete<void>(`/api/goals/${id}`),
 }
