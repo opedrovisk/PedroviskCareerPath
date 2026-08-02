@@ -7,6 +7,10 @@ export interface Profile {
     area: string
     githubUrl: string
     linkedinUrl: string
+    email?: string
+    twitterUrl?: string
+    instagramUrl?: string
+    websiteUrl?: string
     bio: string
     lastUpdate: string
 }
