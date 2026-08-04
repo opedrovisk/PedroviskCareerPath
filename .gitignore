@@ -6,6 +6,11 @@
 # dotenv files
 .env
 
+# Local secrets (JWT key, password hash, connection strings) — never commit
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/appsettings.*.local.json
+
 # User-specific files
 *.rsuser
 *.suo
