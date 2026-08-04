@@ -11,6 +11,9 @@ export interface Profile {
     twitterUrl?: string
     instagramUrl?: string
     websiteUrl?: string
+    techStack: string
+    pdiStartDate: string
+    pdiEndDate: string
     bio: string
     lastUpdate: string
 }

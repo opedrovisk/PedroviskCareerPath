@@ -2,12 +2,6 @@ import { useEffect, useState } from 'react'
 import { profileService } from '../services/profile'
 import type { Profile } from '../types'
 
-// TODO: stack e datas do PDI ainda são fixas — plugar no backend depois
-// (adicionar TechStack, PdiStartDate, PdiEndDate ao model Profile)
-const STACK = ['C#', '.NET', 'ASP.NET Core', 'EF Core', 'React', 'Azure']
-const PDI_START = new Date('2026-02-01')
-const PDI_END = new Date('2026-12-01')
-
 function monthsBetween(a: Date, b: Date) {
     const totalDays = Math.max(0, Math.round((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24)))
     const months = Math.floor(totalDays / 30)
@@ -31,12 +25,20 @@ export function ProfileHeader() {
         .map((part) => part[0]?.toUpperCase())
         .join('')
 
+    const stack = profile.techStack
+        .split(',')
+        .map((tech) => tech.trim())
+        .filter(Boolean)
+
+    const pdiStart = new Date(profile.pdiStartDate)
+    const pdiEnd = new Date(profile.pdiEndDate)
+
     const now = new Date()
-    const elapsed = monthsBetween(PDI_START, now)
-    const remaining = monthsBetween(now, PDI_END)
+    const elapsed = monthsBetween(pdiStart, now)
+    const remaining = monthsBetween(now, pdiEnd)
     const progressPct = Math.min(
         100,
-        Math.max(0, ((now.getTime() - PDI_START.getTime()) / (PDI_END.getTime() - PDI_START.getTime())) * 100)
+        Math.max(0, ((now.getTime() - pdiStart.getTime()) / (pdiEnd.getTime() - pdiStart.getTime())) * 100)
     )
 
     return (
@@ -70,7 +72,7 @@ export function ProfileHeader() {
                     <p className="text-[#8F8878] dark:text-[#C4C4C4]">{profile.subtitle}</p>
 
                     <div className="mt-4 flex flex-wrap gap-2">
-                        {STACK.map((tech, i) => (
+                        {stack.map((tech, i) => (
                             <span
                                 key={tech}
                                 className={`text-xs font-medium text-[#2B2620] dark:text-[#F2F2F5] border rounded-full px-3 py-1 ${i % 2 === 0
@@ -131,9 +133,9 @@ export function ProfileHeader() {
                     </div>
 
                     <p className="mt-3 text-[11px] text-[#B0A98F] dark:text-[#9A9A9A]">
-                        {PDI_START.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
+                        {pdiStart.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
                         {' — '}
-                        {PDI_END.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
+                        {pdiEnd.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
                         {' · Última atualização: '}
                         {new Date(profile.lastUpdate).toLocaleDateString('pt-BR', {
                             day: '2-digit',
@@ -173,7 +175,7 @@ export function ProfileHeader() {
                             <span className="text-[#F7C6D9]">new</span>[]
                         </p>
                         <p className="pl-4">{'{'}</p>
-                        {STACK.map((tech) => (
+                        {stack.map((tech) => (
                             <p key={tech} className="pl-8">
                                 <span className="text-[#A9D18E]">"{tech}"</span>,
                             </p>

@@ -10,6 +10,13 @@ public class Profile
     public string Area { get; set; } = string.Empty;
     public string GithubUrl { get; set; } = string.Empty;
     public string LinkedinUrl { get; set; } = string.Empty;
+    public string? Email { get; set; }
+    public string? TwitterUrl { get; set; }
+    public string? InstagramUrl { get; set; }
+    public string? WebsiteUrl { get; set; }
+    public string TechStack { get; set; } = string.Empty;
+    public DateTime PdiStartDate { get; set; }
+    public DateTime PdiEndDate { get; set; }
     public string Bio { get; set; } = string.Empty;
     public DateTime LastUpdate { get; set; }
 }
