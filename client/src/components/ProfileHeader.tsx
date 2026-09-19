@@ -1,20 +1,47 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { differenceInMonths, differenceInCalendarDays, addMonths, format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+import { toast } from 'sonner'
+import { Building2, Briefcase, CalendarRange, Sparkles, Loader2 } from 'lucide-react'
 import { profileService } from '../services/profile'
-import type { Profile } from '../types'
 
-function monthsBetween(a: Date, b: Date) {
-    const totalDays = Math.max(0, Math.round((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24)))
-    const months = Math.floor(totalDays / 30)
-    const days = totalDays % 30
+const AVATAR_URL = ''
+
+const CODE_NAME = 'Pedro Marcondes'
+const CODE_ROLE = '.NET Web Developer Jr'
+const CODE_COMPANY = 'Vox Soluções em TI'
+
+function monthsAndDaysBetween(a: Date, b: Date) {
+    if (b <= a) return { months: 0, days: 0 }
+    const months = Math.max(0, differenceInMonths(b, a))
+    const days = Math.max(0, differenceInCalendarDays(b, addMonths(a, months)))
     return { months, days }
 }
 
 export function ProfileHeader() {
-    const [profile, setProfile] = useState<Profile | null>(null)
+    const {
+        data: profiles,
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: ['profile'],
+        queryFn: () => profileService.getAll(),
+    })
 
     useEffect(() => {
-        profileService.getAll().then((data) => setProfile(data[0] ?? null))
-    }, [])
+        if (isError) toast.error('Não foi possível carregar o perfil.')
+    }, [isError])
+
+    const profile = profiles?.[0]
+
+    if (isLoading) {
+        return (
+            <header className="flex items-center justify-center gap-2 py-32 text-sm text-[#8F8878] dark:text-[#9A9A9A]">
+                <Loader2 size={16} className="animate-spin" /> Carregando perfil...
+            </header>
+        )
+    }
 
     if (!profile) return null
 
@@ -34,8 +61,8 @@ export function ProfileHeader() {
     const pdiEnd = new Date(profile.pdiEndDate)
 
     const now = new Date()
-    const elapsed = monthsBetween(pdiStart, now)
-    const remaining = monthsBetween(now, pdiEnd)
+    const elapsed = monthsAndDaysBetween(pdiStart, now)
+    const remaining = monthsAndDaysBetween(now, pdiEnd)
     const progressPct = Math.min(
         100,
         Math.max(0, ((now.getTime() - pdiStart.getTime()) / (pdiEnd.getTime() - pdiStart.getTime())) * 100)
@@ -48,8 +75,12 @@ export function ProfileHeader() {
             <div className="relative max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-[1.15fr_1fr] gap-12 items-start">
                 <div>
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#F6D374] to-[#F7C6D9] flex items-center justify-center text-[#2B2620] text-sm font-semibold">
-                            {initials}
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#F6D374] to-[#F7C6D9] flex items-center justify-center text-[#2B2620] text-sm font-semibold">
+                            {AVATAR_URL ? (
+                                <img src={AVATAR_URL} alt={profile.name} className="w-full h-full object-cover" />
+                            ) : (
+                                initials
+                            )}
                         </div>
                         <div>
                             <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5]">{profile.name}</p>
@@ -60,12 +91,12 @@ export function ProfileHeader() {
                         </span>
                     </div>
 
-                    <span className="inline-block text-xs font-semibold tracking-wide text-[#8A6D2E] dark:text-[#F6D374] bg-[#F6D374]/50 dark:bg-[#F6D374]/10 rounded-full px-3 py-1 mb-6">
-                        ✦ Plano de Desenvolvimento Individual
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-[#8A6D2E] dark:text-[#F6D374] bg-[#F6D374]/50 dark:bg-[#F6D374]/10 rounded-full px-3 py-1 mb-6">
+                        <Sparkles size={12} /> Plano de Desenvolvimento Individual
                     </span>
 
                     <h1 className="text-5xl font-bold text-[#2B2620] dark:text-[#F2F2F5] tracking-tight leading-tight">
-                        Olá, eu sou <span className="text-[#E88FB0] dark:text-[#F2A9C4]">{profile.name}</span>
+                        Olá, eu sou <span className="text-[#E88FB0] dark:text-[#F2A9C4]">Pedrovisk</span>
                     </h1>
 
                     <p className="mt-4 text-xl text-[#2B2620] dark:text-[#F2F2F5] font-medium">{profile.title}</p>
@@ -108,19 +139,27 @@ export function ProfileHeader() {
 
                     <div className="mt-12 rounded-2xl border border-gray-200 dark:border-[#2A2A35] bg-white/60 dark:bg-[#1A1A22]/60 backdrop-blur-sm divide-y sm:divide-y-0 sm:divide-x divide-gray-200 dark:divide-[#2A2A35] grid sm:grid-cols-4">
                         <div className="px-5 py-4">
-                            <p className="text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">Empresa</p>
+                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                                <Building2 size={12} /> Empresa
+                            </p>
                             <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] mt-1">{profile.company}</p>
                         </div>
                         <div className="px-5 py-4">
-                            <p className="text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">Área</p>
+                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                                <Briefcase size={12} /> Área
+                            </p>
                             <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] mt-1">{profile.area}</p>
                         </div>
                         <div className="px-5 py-4">
-                            <p className="text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">Tempo decorrido</p>
+                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                                <CalendarRange size={12} /> Tempo decorrido
+                            </p>
                             <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] mt-1">{elapsed.months}m {elapsed.days}d</p>
                         </div>
                         <div className="px-5 py-4">
-                            <p className="text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">Tempo restante</p>
+                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                                <CalendarRange size={12} /> Tempo restante
+                            </p>
                             <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] mt-1">{remaining.months}m {remaining.days}d</p>
                         </div>
                     </div>
@@ -133,15 +172,11 @@ export function ProfileHeader() {
                     </div>
 
                     <p className="mt-3 text-[11px] text-[#B0A98F] dark:text-[#9A9A9A]">
-                        {pdiStart.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
+                        {format(pdiStart, "MMM 'de' yyyy", { locale: ptBR })}
                         {' — '}
-                        {pdiEnd.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
+                        {format(pdiEnd, "MMM 'de' yyyy", { locale: ptBR })}
                         {' · Última atualização: '}
-                        {new Date(profile.lastUpdate).toLocaleDateString('pt-BR', {
-                            day: '2-digit',
-                            month: 'long',
-                            year: 'numeric',
-                        })}
+                        {format(new Date(profile.lastUpdate), "d 'de' MMMM 'de' yyyy", { locale: ptBR })}
                     </p>
                 </div>
 
@@ -160,15 +195,15 @@ export function ProfileHeader() {
                         <p>{'{'}</p>
                         <p className="pl-4">
                             <span className="text-[#F7C6D9]">public string</span> Name <span className="text-[#7A7A85]">=&gt;</span>{' '}
-                            <span className="text-[#A9D18E]">"{profile.name}"</span>;
+                            <span className="text-[#A9D18E]">"{CODE_NAME}"</span>;
                         </p>
                         <p className="pl-4">
                             <span className="text-[#F7C6D9]">public string</span> Role <span className="text-[#7A7A85]">=&gt;</span>{' '}
-                            <span className="text-[#A9D18E]">"{profile.title}"</span>;
+                            <span className="text-[#A9D18E]">"{CODE_ROLE}"</span>;
                         </p>
                         <p className="pl-4">
                             <span className="text-[#F7C6D9]">public string</span> Company <span className="text-[#7A7A85]">=&gt;</span>{' '}
-                            <span className="text-[#A9D18E]">"{profile.company}"</span>;
+                            <span className="text-[#A9D18E]">"{CODE_COMPANY}"</span>;
                         </p>
                         <p className="pl-4 mt-2">
                             <span className="text-[#F7C6D9]">public string</span>[] Stack <span className="text-[#7A7A85]">=&gt;</span>{' '}

@@ -18,18 +18,27 @@ export interface Profile {
     lastUpdate: string
 }
 
+export type GoalStatus = 'Planejado' | 'EmProgresso' | 'Concluido'
+export type GoalPriority = 'Baixa' | 'Media' | 'Alta'
+
 export interface Goal {
     id: number
     title: string
     description: string
-    isCompleted: boolean
+    category: string
+    priority: GoalPriority
+    status: GoalStatus
+    progressPercent: number
     targetDate: string | null
 }
+
+export type RoadmapStatus = 'Planned' | 'InProgress' | 'Completed'
 
 export interface RoadmapItem {
     id: number
     technology: string
-    status: string
+    category: string
+    status: RoadmapStatus
     order: number
 }
 

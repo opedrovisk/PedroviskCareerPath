@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 
+const AVATAR_URL = ''
+
 const links = [
     { to: '/', label: 'Sobre' },
     { to: '/metas', label: 'Metas' },
@@ -15,13 +17,17 @@ export function Navbar() {
 
     return (
         <nav className="sticky top-0 z-50 bg-[#FFFDF8] dark:bg-[#121218] border-b border-[#F0EAD8] dark:border-[#2A2A35]">
-            <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
                 <Link to="/" className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-full bg-gradient-to-br from-[#F6D374] to-[#F7C6D9] flex items-center justify-center text-[#2B2620] text-xs font-bold">
-                        PV
+                    <span className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-[#F6D374] to-[#F7C6D9] flex items-center justify-center text-[#2B2620] text-xs font-bold">
+                        {AVATAR_URL ? (
+                            <img src={AVATAR_URL} alt="Pedrovisk" className="w-full h-full object-cover" />
+                        ) : (
+                            'PV'
+                        )}
                     </span>
                     <span className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] hidden sm:inline">
-                        Pedrovisk - Plano de carreira
+                        Pedro Visk · PDI
                     </span>
                 </Link>
 
