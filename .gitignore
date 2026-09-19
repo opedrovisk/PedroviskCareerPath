@@ -488,3 +488,6 @@ $RECYCLE.BIN/
 .impeccable/
 /DESIGN.md
 /PRODUCT.md
+.github/agents/
+.github/hooks/
+.github/skills/
