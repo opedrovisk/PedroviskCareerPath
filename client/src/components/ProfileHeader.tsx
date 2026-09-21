@@ -5,12 +5,7 @@ import { ptBR } from 'date-fns/locale'
 import { toast } from 'sonner'
 import { Building2, Briefcase, CalendarRange, Sparkles, Loader2 } from 'lucide-react'
 import { profileService } from '../services/profile'
-
-const AVATAR_URL = ''
-
-const CODE_NAME = 'Pedro Marcondes'
-const CODE_ROLE = '.NET Web Developer Jr'
-const CODE_COMPANY = 'Vox Soluções em TI'
+import { AVATAR_URL } from '../libs/constants'
 
 function monthsAndDaysBetween(a: Date, b: Date) {
     if (b <= a) return { months: 0, days: 0 }
@@ -45,13 +40,6 @@ export function ProfileHeader() {
 
     if (!profile) return null
 
-    const initials = profile.name
-        .split(' ')
-        .filter(Boolean)
-        .slice(0, 2)
-        .map((part) => part[0]?.toUpperCase())
-        .join('')
-
     const stack = profile.techStack
         .split(',')
         .map((tech) => tech.trim())
@@ -74,26 +62,16 @@ export function ProfileHeader() {
 
             <div className="relative max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-[1.15fr_1fr] gap-12 items-start">
                 <div>
-                    <div className="flex items-center gap-3 mb-8">
-                        <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#F6D374] to-[#F7C6D9] flex items-center justify-center text-[#2B2620] text-sm font-semibold">
-                            {AVATAR_URL ? (
-                                <img src={AVATAR_URL} alt={profile.name} className="w-full h-full object-cover" />
-                            ) : (
-                                initials
-                            )}
-                        </div>
-                        <div>
-                            <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5]">{profile.name}</p>
-                            <p className="text-xs text-[#8F8878] dark:text-[#C4C4C4]">{profile.title}</p>
-                        </div>
-                        <span className="ml-auto text-xs font-semibold px-2.5 py-1 rounded-full bg-[#F6D374]/30 dark:bg-[#F6D374]/10 text-[#8A6D2E] dark:text-[#F6D374]">
-                            Em andamento
+                    <div className="flex items-center gap-4 mb-8">
+                        <img
+                            src={AVATAR_URL}
+                            alt={profile.name}
+                            className="w-16 h-16 rounded-full object-cover ring-2 ring-[#F6D374]/60"
+                        />
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-[#8A6D2E] dark:text-[#F6D374] bg-[#F6D374]/50 dark:bg-[#F6D374]/10 rounded-full px-3 py-1">
+                            <Sparkles size={12} /> Plano de Desenvolvimento Individual
                         </span>
                     </div>
-
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-[#8A6D2E] dark:text-[#F6D374] bg-[#F6D374]/50 dark:bg-[#F6D374]/10 rounded-full px-3 py-1 mb-6">
-                        <Sparkles size={12} /> Plano de Desenvolvimento Individual
-                    </span>
 
                     <h1 className="text-5xl font-bold text-[#2B2620] dark:text-[#F2F2F5] tracking-tight leading-tight">
                         Olá, eu sou <span className="text-[#E88FB0] dark:text-[#F2A9C4]">Pedrovisk</span>
@@ -175,8 +153,6 @@ export function ProfileHeader() {
                         {format(pdiStart, "MMM 'de' yyyy", { locale: ptBR })}
                         {' — '}
                         {format(pdiEnd, "MMM 'de' yyyy", { locale: ptBR })}
-                        {' · Última atualização: '}
-                        {format(new Date(profile.lastUpdate), "d 'de' MMMM 'de' yyyy", { locale: ptBR })}
                     </p>
                 </div>
 
@@ -195,15 +171,15 @@ export function ProfileHeader() {
                         <p>{'{'}</p>
                         <p className="pl-4">
                             <span className="text-[#F7C6D9]">public string</span> Name <span className="text-[#7A7A85]">=&gt;</span>{' '}
-                            <span className="text-[#A9D18E]">"{CODE_NAME}"</span>;
+                            <span className="text-[#A9D18E]">"{profile.name}"</span>;
                         </p>
                         <p className="pl-4">
                             <span className="text-[#F7C6D9]">public string</span> Role <span className="text-[#7A7A85]">=&gt;</span>{' '}
-                            <span className="text-[#A9D18E]">"{CODE_ROLE}"</span>;
+                            <span className="text-[#A9D18E]">"{profile.title}"</span>;
                         </p>
                         <p className="pl-4">
                             <span className="text-[#F7C6D9]">public string</span> Company <span className="text-[#7A7A85]">=&gt;</span>{' '}
-                            <span className="text-[#A9D18E]">"{CODE_COMPANY}"</span>;
+                            <span className="text-[#A9D18E]">"{profile.company}"</span>;
                         </p>
                         <p className="pl-4 mt-2">
                             <span className="text-[#F7C6D9]">public string</span>[] Stack <span className="text-[#7A7A85]">=&gt;</span>{' '}
@@ -216,10 +192,6 @@ export function ProfileHeader() {
                             </p>
                         ))}
                         <p className="pl-4">{'};'}</p>
-                        <p className="pl-4 mt-2">
-                            <span className="text-[#F7C6D9]">public bool</span> AlwaysLearning <span className="text-[#7A7A85]">=&gt;</span>{' '}
-                            <span className="text-[#F0A868]">true</span>;
-                        </p>
                         <p>{'}'}</p>
                     </div>
                 </div>
