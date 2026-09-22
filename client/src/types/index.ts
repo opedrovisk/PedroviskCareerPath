@@ -50,8 +50,13 @@ export interface Contribution {
     date: string
 }
 
+export type SoftSkillStatus = 'Practicing' | 'Developing'
+
 export interface SoftSkill {
     id: number
     name: string
-    level: number
+    description: string
+    status: SoftSkillStatus
+    order: number
+
 }
