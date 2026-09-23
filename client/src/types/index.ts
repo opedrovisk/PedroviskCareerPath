@@ -42,12 +42,19 @@ export interface RoadmapItem {
     order: number
 }
 
+export type ContributionStatus = 'InProgress' | 'Completed'
+
 export interface Contribution {
     id: number
     title: string
     description: string
+    category: string
+    status: ContributionStatus
     url: string | null
+    tags: string
+    impacts: string
     date: string
+    order: number
 }
 
 export type SoftSkillStatus = 'Practicing' | 'Developing'
