@@ -5,8 +5,7 @@ import { FiMail, FiGlobe } from 'react-icons/fi'
 import { FaGithub, FaLinkedin, FaXTwitter, FaInstagram } from 'react-icons/fa6'
 import { profileService } from '../services/profile'
 
-const ICON_CLASS =
-    'text-[#8F8878] dark:text-[#9A9A9A] hover:text-[#2B2620] dark:hover:text-[#F2F2F5] transition-colors'
+const ICON_CLASS = 'text-ink-muted hover:text-ink transition-colors'
 
 export function Footer() {
     const { data: profiles } = useQuery({
@@ -27,9 +26,9 @@ export function Footer() {
         : []
 
     return (
-        <footer className="bg-[#FFFDF8] dark:bg-[#121218] border-t border-[#F0EAD8] dark:border-[#2A2A35]">
+        <footer className="bg-surface border-t border-border">
             <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <p className="text-xs text-[#8F8878] dark:text-[#9A9A9A] text-center sm:text-left">
+                <p className="text-xs text-ink-muted text-center sm:text-left">
                     {profile?.name ?? 'Pedro Marcondes'} · Plano de Desenvolvimento Individual · {new Date().getFullYear()}
                     {profile && (
                         <>

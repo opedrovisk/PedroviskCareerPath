@@ -32,7 +32,7 @@ export function ProfileHeader() {
 
     if (isLoading) {
         return (
-            <header className="flex items-center justify-center gap-2 py-32 text-sm text-[#8F8878] dark:text-[#9A9A9A]">
+            <header className="flex items-center justify-center gap-2 py-32 text-sm text-ink-muted">
                 <Loader2 size={16} className="animate-spin" /> Carregando perfil...
             </header>
         )
@@ -66,27 +66,27 @@ export function ProfileHeader() {
                         <img
                             src={AVATAR_URL}
                             alt={profile.name}
-                            className="w-16 h-16 rounded-full object-cover ring-2 ring-[#F6D374]/60"
+                            className="w-16 h-16 rounded-full object-cover ring-2 ring-accent-yellow/60"
                         />
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-[#8A6D2E] dark:text-[#F6D374] bg-[#F6D374]/50 dark:bg-[#F6D374]/10 rounded-full px-3 py-1">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-ink-on-accent bg-accent-yellow/50 rounded-full px-3 py-1">
                             <Sparkles size={12} /> Plano de Desenvolvimento Individual
                         </span>
                     </div>
 
-                    <h1 className="text-5xl font-bold text-[#2B2620] dark:text-[#F2F2F5] tracking-tight leading-tight">
-                        Olá, eu sou <span className="text-[#E88FB0] dark:text-[#F2A9C4]">Pedrovisk</span>
+                    <h1 className="text-5xl font-bold text-ink tracking-tight leading-tight">
+                        Olá, eu sou <span className="text-accent-pink">Pedrovisk</span>
                     </h1>
 
-                    <p className="mt-4 text-xl text-[#2B2620] dark:text-[#F2F2F5] font-medium">{profile.title}</p>
-                    <p className="text-[#8F8878] dark:text-[#C4C4C4]">{profile.subtitle}</p>
+                    <p className="mt-4 text-xl text-ink font-medium">{profile.title}</p>
+                    <p className="text-ink-muted">{profile.subtitle}</p>
 
                     <div className="mt-4 flex flex-wrap gap-2">
                         {stack.map((tech, i) => (
                             <span
                                 key={tech}
-                                className={`text-xs font-medium text-[#2B2620] dark:text-[#F2F2F5] border rounded-full px-3 py-1 ${i % 2 === 0
-                                    ? 'bg-[#F6D374]/30 dark:bg-[#F6D374]/10 border-[#F0DFA0] dark:border-[#F6D374]/20'
-                                    : 'bg-[#F7C6D9]/30 dark:bg-[#F7C6D9]/10 border-[#F3D2E1] dark:border-[#F7C6D9]/20'
+                                className={`text-xs font-medium text-ink border rounded-full px-3 py-1 ${i % 2 === 0
+                                    ? 'bg-accent-yellow/30 border-accent-yellow-soft'
+                                    : 'bg-accent-pink-soft/30 border-accent-pink-soft'
                                     }`}
                             >
                                 {tech}
@@ -94,14 +94,14 @@ export function ProfileHeader() {
                         ))}
                     </div>
 
-                    <p className="mt-6 text-[#5A5548] dark:text-[#B8B8C2] max-w-xl">{profile.bio}</p>
+                    <p className="mt-6 text-ink-muted max-w-xl">{profile.bio}</p>
 
                     <div className="mt-8 flex gap-3">
                         <a
                             href={profile.githubUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#2B2620] dark:bg-[#F2F2F5] text-white dark:text-[#121218] text-sm font-semibold shadow-sm hover:bg-[#443E33] dark:hover:bg-[#E5E0D0] transition-colors"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-accent-yellow to-accent-pink-soft text-ink-on-accent text-sm font-semibold shadow-sm hover:opacity-90 transition-opacity"
                         >
                             GitHub
                         </a>
@@ -109,53 +109,54 @@ export function ProfileHeader() {
                             href={profile.linkedinUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white dark:bg-[#1E1E27] border border-[#F0DFA0] dark:border-[#2A2A35] text-[#2B2620] dark:text-[#F2F2F5] text-sm font-semibold hover:border-[#E88FB0] hover:text-[#E88FB0] transition-colors"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface-card border border-border text-ink text-sm font-semibold hover:border-accent-pink hover:text-accent-pink transition-colors"
                         >
                             LinkedIn
                         </a>
                     </div>
 
-                    <div className="mt-12 rounded-2xl border border-gray-200 dark:border-[#2A2A35] bg-white/60 dark:bg-[#1A1A22]/60 backdrop-blur-sm divide-y sm:divide-y-0 sm:divide-x divide-gray-200 dark:divide-[#2A2A35] grid sm:grid-cols-4">
+                    <div className="mt-12 rounded-2xl border border-border bg-surface-card/60 backdrop-blur-sm divide-y sm:divide-y-0 sm:divide-x divide-border grid sm:grid-cols-4">
                         <div className="px-5 py-4">
-                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-ink-subtle uppercase">
                                 <Building2 size={12} /> Empresa
                             </p>
-                            <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] mt-1">{profile.company}</p>
+                            <p className="text-sm font-semibold text-ink mt-1">{profile.company}</p>
                         </div>
                         <div className="px-5 py-4">
-                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-ink-subtle uppercase">
                                 <Briefcase size={12} /> Área
                             </p>
-                            <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] mt-1">{profile.area}</p>
+                            <p className="text-sm font-semibold text-ink mt-1">{profile.area}</p>
                         </div>
                         <div className="px-5 py-4">
-                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-ink-subtle uppercase">
                                 <CalendarRange size={12} /> Tempo decorrido
                             </p>
-                            <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] mt-1">{elapsed.months}m {elapsed.days}d</p>
+                            <p className="text-sm font-semibold text-ink mt-1">{elapsed.months}m {elapsed.days}d</p>
                         </div>
                         <div className="px-5 py-4">
-                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                            <p className="flex items-center gap-1.5 text-[10px] font-semibold tracking-wide text-ink-subtle uppercase">
                                 <CalendarRange size={12} /> Tempo restante
                             </p>
-                            <p className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] mt-1">{remaining.months}m {remaining.days}d</p>
+                            <p className="text-sm font-semibold text-ink mt-1">{remaining.months}m {remaining.days}d</p>
                         </div>
                     </div>
 
-                    <div className="mt-3 h-1.5 rounded-full bg-[#F5F2E8] dark:bg-[#2A2A35] overflow-hidden">
+                    <div className="mt-3 h-1.5 rounded-full bg-surface-soft overflow-hidden">
                         <div
-                            className="h-full rounded-full bg-gradient-to-r from-[#F6D374] to-[#F7C6D9]"
+                            className="h-full rounded-full bg-gradient-to-r from-accent-yellow to-accent-pink-soft"
                             style={{ width: `${progressPct}%` }}
                         />
                     </div>
 
-                    <p className="mt-3 text-[11px] text-[#B0A98F] dark:text-[#9A9A9A]">
+                    <p className="mt-3 text-[11px] text-ink-subtle">
                         {format(pdiStart, "MMM 'de' yyyy", { locale: ptBR })}
                         {' — '}
                         {format(pdiEnd, "MMM 'de' yyyy", { locale: ptBR })}
                     </p>
                 </div>
 
+                {/* Painel Developer.cs: mockup de editor de código, sempre escuro de propósito — não segue o tema claro/escuro do site */}
                 <div className="lg:sticky lg:top-24 rounded-2xl overflow-hidden border border-[#2A2A35] shadow-lg bg-[#181820]">
                     <div className="flex items-center gap-4 px-5 py-3.5 bg-[#121218] border-b border-[#2A2A35]">
                         <div className="flex gap-1.5">

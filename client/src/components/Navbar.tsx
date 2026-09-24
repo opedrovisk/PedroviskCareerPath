@@ -22,7 +22,7 @@ export function Navbar() {
     const profile = profiles?.[0]
 
     return (
-        <nav className="sticky top-0 z-50 bg-[#FFFDF8] dark:bg-[#121218] border-b border-[#F0EAD8] dark:border-[#2A2A35]">
+        <nav className="sticky top-0 z-50 bg-surface border-b border-border">
             <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
                 <Link to="/" className="flex items-center gap-3">
                     <img
@@ -30,7 +30,7 @@ export function Navbar() {
                         alt={profile?.name ?? 'Foto de perfil'}
                         className="w-8 h-8 rounded-full object-cover"
                     />
-                    <span className="text-sm font-semibold text-[#2B2620] dark:text-[#F2F2F5] hidden sm:inline">
+                    <span className="text-sm font-semibold text-ink hidden sm:inline">
                         {profile ? `${profile.name} · PDI` : 'PDI'}
                     </span>
                 </Link>
@@ -44,8 +44,8 @@ export function Navbar() {
                                 to={link.to}
                                 className={
                                     isActive
-                                        ? 'text-xs font-semibold text-[#2B2620] bg-[#F7C6D9] rounded-full px-3 py-1'
-                                        : 'text-sm text-[#8F8878] dark:text-[#C4C4C4] hover:text-[#2B2620] dark:hover:text-[#F2F2F5] transition-colors hidden md:inline'
+                                        ? 'text-xs font-semibold text-ink-on-accent bg-accent-pink-soft rounded-full px-3 py-1'
+                                        : 'text-sm text-ink-muted hover:text-ink transition-colors hidden md:inline'
                                 }
                             >
                                 {link.label}
@@ -56,7 +56,7 @@ export function Navbar() {
                     <button
                         onClick={toggleTheme}
                         aria-label="Alternar tema"
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-[#8F8878] dark:text-[#F6D374] hover:bg-[#F5F2E8] dark:hover:bg-[#2A2A35] transition-colors"
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-ink-muted hover:bg-surface-soft transition-colors"
                     >
                         {theme === 'dark' ? (
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

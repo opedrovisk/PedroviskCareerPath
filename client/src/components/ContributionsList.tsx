@@ -4,7 +4,7 @@ import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '../libs/utils'
 import { contributionsService } from '../services/contributions'
-import type { Contribution, ContributionStatus } from '../types'
+import type { ContributionStatus } from '../types'
 
 const STATUS_LABEL: Record<ContributionStatus, string> = {
     InProgress: 'Em andamento',
@@ -12,10 +12,8 @@ const STATUS_LABEL: Record<ContributionStatus, string> = {
 }
 
 const STATUS_BADGE: Record<ContributionStatus, string> = {
-    InProgress:
-        'bg-[#F6D374]/30 dark:bg-[#F6D374]/10 border-[#F0DFA0] dark:border-[#F6D374]/20 text-[#8A6D2E] dark:text-[#F6D374]',
-    Completed:
-        'bg-[#B7E0C0]/50 dark:bg-[#B7E0C0]/10 border-[#B7E0C0] dark:border-[#B7E0C0]/20 text-[#3D7A4C] dark:text-[#8FD69E]',
+    InProgress: 'bg-accent-yellow/30 dark:bg-accent-yellow/10 border-accent-yellow-soft dark:border-accent-yellow/20 text-warning-ink',
+    Completed: 'bg-success-soft/50 dark:bg-success-soft/10 border-success-soft dark:border-success-soft/20 text-success',
 }
 
 function toList(value: string) {
@@ -53,16 +51,16 @@ export function ContributionsList() {
 
     return (
         <section className="max-w-6xl mx-auto px-6 py-16">
-            <span className="text-xs font-semibold tracking-wide text-[#E88FB0] dark:text-[#F2A9C4] uppercase">
+            <span className="text-xs font-semibold tracking-wide text-accent-pink uppercase">
                 Projetos & Estudos
             </span>
-            <h2 className="text-3xl font-bold text-[#2B2620] dark:text-[#F2F2F5] mt-1">Contribuições</h2>
-            <p className="text-[#8F8878] dark:text-[#C4C4C4] mt-2 max-w-2xl">
+            <h2 className="text-3xl font-bold text-ink mt-1">Contribuições</h2>
+            <p className="text-ink-muted mt-2 max-w-2xl">
                 Coleção de projetos, estudos e participações que constroem minha jornada.
             </p>
 
             {isLoading && (
-                <div className="flex items-center gap-2 text-sm text-[#8F8878] dark:text-[#9A9A9A] mt-6">
+                <div className="flex items-center gap-2 text-sm text-ink-muted mt-6">
                     <Loader2 size={16} className="animate-spin" /> Carregando contribuições...
                 </div>
             )}
@@ -76,8 +74,8 @@ export function ContributionsList() {
                             className={cn(
                                 'text-sm font-medium px-4 py-1.5 rounded-full transition-colors',
                                 category === activeCategory
-                                    ? 'bg-gradient-to-r from-[#F6D374] to-[#F7C6D9] text-[#2B2620]'
-                                    : 'bg-[#F5F2E8] dark:bg-[#1E1E27] text-[#5B5646] dark:text-[#C4C4C4] hover:bg-[#F0EAD8] dark:hover:bg-[#2A2A35]'
+                                    ? 'bg-gradient-to-r from-accent-yellow to-accent-pink-soft text-ink-on-accent'
+                                    : 'bg-surface-soft text-ink-muted hover:bg-border/60'
                             )}
                         >
                             {category}
@@ -94,11 +92,11 @@ export function ContributionsList() {
                     return (
                         <div
                             key={item.id}
-                            className="rounded-2xl border border-gray-200 dark:border-[#2A2A35] bg-white dark:bg-[#1A1A22] p-6"
+                            className="rounded-2xl border border-border bg-surface-card p-6"
                         >
                             <div className="flex items-start justify-between gap-3">
                                 <div>
-                                    <h3 className="font-semibold text-[#2B2620] dark:text-[#F2F2F5]">
+                                    <h3 className="font-semibold text-ink">
                                         {item.url ? (
                                             <a
                                                 href={item.url}
@@ -113,7 +111,7 @@ export function ContributionsList() {
                                         )}
                                     </h3>
                                     {item.category && (
-                                        <p className="text-xs font-medium text-[#E88FB0] dark:text-[#F2A9C4] mt-1">
+                                        <p className="text-xs font-medium text-accent-pink mt-1">
                                             {item.category}
                                         </p>
                                     )}
@@ -128,14 +126,14 @@ export function ContributionsList() {
                                 </span>
                             </div>
 
-                            <p className="text-sm text-[#8F8878] dark:text-[#C4C4C4] mt-3">{item.description}</p>
+                            <p className="text-sm text-ink-muted mt-3">{item.description}</p>
 
                             {tags.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-4">
                                     {tags.map((tag) => (
                                         <span
                                             key={tag}
-                                            className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#F5F2E8] dark:bg-[#1E1E27] text-[#5B5646] dark:text-[#C4C4C4]"
+                                            className="text-xs font-medium px-2.5 py-1 rounded-full bg-surface-soft text-ink-muted"
                                         >
                                             {tag}
                                         </span>
@@ -145,14 +143,14 @@ export function ContributionsList() {
 
                             {impacts.length > 0 && (
                                 <div className="mt-4">
-                                    <p className="text-xs font-semibold tracking-wide text-[#B0A98F] dark:text-[#9A9A9A] uppercase">
+                                    <p className="text-xs font-semibold tracking-wide text-ink-subtle uppercase">
                                         Impactos
                                     </p>
                                     <ul className="mt-2 space-y-1">
                                         {impacts.map((impact) => (
                                             <li
                                                 key={impact}
-                                                className="text-sm text-[#5B5646] dark:text-[#C4C4C4] pl-3 relative before:content-[''] before:absolute before:left-0 before:top-2 before:w-1 before:h-1 before:rounded-full before:bg-[#E88FB0] dark:before:bg-[#F2A9C4]"
+                                                className="text-sm text-ink-muted pl-3 relative before:content-[''] before:absolute before:left-0 before:top-2 before:w-1 before:h-1 before:rounded-full before:bg-accent-pink"
                                             >
                                                 {impact}
                                             </li>
@@ -166,13 +164,13 @@ export function ContributionsList() {
             </div>
 
             {isError && (
-                <p className="text-sm text-[#B0433C] dark:text-[#F09995] mt-6">
+                <p className="text-sm text-danger mt-6">
                     Não foi possível carregar as contribuições agora. Tenta de novo em instantes.
                 </p>
             )}
 
             {!isLoading && !isError && filtered.length === 0 && (
-                <p className="text-sm text-[#B0A98F] dark:text-[#9A9A9A] mt-6">Nenhuma contribuição encontrada.</p>
+                <p className="text-sm text-ink-subtle mt-6">Nenhuma contribuição encontrada.</p>
             )}
         </section>
     )
