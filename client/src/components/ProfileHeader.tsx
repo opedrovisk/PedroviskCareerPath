@@ -58,8 +58,6 @@ export function ProfileHeader() {
 
     return (
         <header className="relative overflow-hidden">
-            {/* Fundo: usa o wallpaper global do body (index.css), sem camada própria */}
-
             <div className="relative max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-[1.15fr_1fr] gap-12 items-start">
                 <div>
                     <div className="flex items-center gap-4 mb-8">
@@ -68,7 +66,7 @@ export function ProfileHeader() {
                             alt={profile.name}
                             className="w-16 h-16 rounded-full object-cover ring-2 ring-accent-yellow/60"
                         />
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-ink-on-accent bg-accent-yellow/50 rounded-full px-3 py-1">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-ink-on-accent bg-accent-yellow/30 border border-accent-yellow/50 rounded-full px-3 py-1 dark:text-accent-yellow dark:bg-accent-yellow/10 dark:border-accent-yellow/30">
                             <Sparkles size={12} /> Plano de Desenvolvimento Individual
                         </span>
                     </div>
@@ -101,7 +99,7 @@ export function ProfileHeader() {
                             href={profile.githubUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-accent-yellow to-accent-pink-soft text-ink-on-accent text-sm font-semibold shadow-sm hover:opacity-90 transition-opacity"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface-card border border-border text-ink text-sm font-semibold hover:border-accent-pink hover:text-accent-pink transition-colors"
                         >
                             GitHub
                         </a>
@@ -156,7 +154,6 @@ export function ProfileHeader() {
                     </p>
                 </div>
 
-                {/* Painel Developer.cs: mockup de editor de código, sempre escuro de propósito — não segue o tema claro/escuro do site */}
                 <div className="lg:sticky lg:top-24 rounded-2xl overflow-hidden border border-[#2A2A35] shadow-lg bg-[#181820]">
                     <div className="flex items-center gap-4 px-5 py-3.5 bg-[#121218] border-b border-[#2A2A35]">
                         <div className="flex gap-1.5">
