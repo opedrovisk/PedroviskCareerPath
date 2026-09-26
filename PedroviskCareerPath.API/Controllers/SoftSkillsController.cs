@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
+using PedroviskCareerPath.API.Dtos;
 using PedroviskCareerPath.API.Models;
 
 namespace PedroviskCareerPath.API.Controllers;
@@ -20,7 +21,7 @@ public class SoftSkillsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<SoftSkill>>> GetAll()
     {
-        return await _context.SoftSkills.ToListAsync();
+        return await _context.SoftSkills.OrderBy(s => s.Order).ToListAsync();
     }
 
     [HttpGet("{id}")]
@@ -33,8 +34,16 @@ public class SoftSkillsController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<SoftSkill>> Create(SoftSkill skill)
+    public async Task<ActionResult<SoftSkill>> Create(SoftSkillDto dto)
     {
+        var skill = new SoftSkill
+        {
+            Name = dto.Name,
+            Description = dto.Description,
+            Status = dto.Status,
+            Order = dto.Order,
+        };
+
         _context.SoftSkills.Add(skill);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetById), new { id = skill.Id }, skill);
@@ -42,10 +51,16 @@ public class SoftSkillsController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize]
-    public async Task<IActionResult> Update(int id, SoftSkill skill)
+    public async Task<IActionResult> Update(int id, SoftSkillDto dto)
     {
-        if (id != skill.Id) return BadRequest();
-        _context.Entry(skill).State = EntityState.Modified;
+        var skill = await _context.SoftSkills.FindAsync(id);
+        if (skill == null) return NotFound();
+
+        skill.Name = dto.Name;
+        skill.Description = dto.Description;
+        skill.Status = dto.Status;
+        skill.Order = dto.Order;
+
         await _context.SaveChangesAsync();
         return NoContent();
     }

@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
+using PedroviskCareerPath.API.Dtos;
 using PedroviskCareerPath.API.Models;
 
 namespace PedroviskCareerPath.API.Controllers;
@@ -31,32 +32,30 @@ public class ProfileController : ControllerBase
         return profile;
     }
 
-    [HttpPost]
-    [Authorize]
-    public async Task<ActionResult<Profile>> Create(Profile profile)
-    {
-        _context.Profiles.Add(profile);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetById), new { id = profile.Id }, profile);
-    }
-
     [HttpPut("{id}")]
     [Authorize]
-    public async Task<IActionResult> Update(int id, Profile profile)
-    {
-        if (id != profile.Id) return BadRequest();
-        _context.Entry(profile).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    [Authorize]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Update(int id, ProfileDto dto)
     {
         var profile = await _context.Profiles.FindAsync(id);
         if (profile == null) return NotFound();
-        _context.Profiles.Remove(profile);
+
+        profile.Name = dto.Name;
+        profile.Title = dto.Title;
+        profile.Subtitle = dto.Subtitle;
+        profile.Company = dto.Company;
+        profile.Area = dto.Area;
+        profile.GithubUrl = dto.GithubUrl;
+        profile.LinkedinUrl = dto.LinkedinUrl;
+        profile.Email = dto.Email;
+        profile.TwitterUrl = dto.TwitterUrl;
+        profile.InstagramUrl = dto.InstagramUrl;
+        profile.WebsiteUrl = dto.WebsiteUrl;
+        profile.TechStack = dto.TechStack;
+        profile.PdiStartDate = dto.PdiStartDate;
+        profile.PdiEndDate = dto.PdiEndDate;
+        profile.Bio = dto.Bio;
+        profile.LastUpdate = dto.LastUpdate;
+
         await _context.SaveChangesAsync();
         return NoContent();
     }

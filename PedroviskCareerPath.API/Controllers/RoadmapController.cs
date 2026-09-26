@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
+using PedroviskCareerPath.API.Dtos;
 using PedroviskCareerPath.API.Models;
 
 namespace PedroviskCareerPath.API.Controllers;
@@ -33,8 +34,16 @@ public class RoadmapController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<RoadmapItem>> Create(RoadmapItem item)
+    public async Task<ActionResult<RoadmapItem>> Create(RoadmapItemDto dto)
     {
+        var item = new RoadmapItem
+        {
+            Technology = dto.Technology,
+            Category = dto.Category,
+            Status = dto.Status,
+            Order = dto.Order,
+        };
+
         _context.RoadmapItems.Add(item);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetById), new { id = item.Id }, item);
@@ -42,10 +51,16 @@ public class RoadmapController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize]
-    public async Task<IActionResult> Update(int id, RoadmapItem item)
+    public async Task<IActionResult> Update(int id, RoadmapItemDto dto)
     {
-        if (id != item.Id) return BadRequest();
-        _context.Entry(item).State = EntityState.Modified;
+        var item = await _context.RoadmapItems.FindAsync(id);
+        if (item == null) return NotFound();
+
+        item.Technology = dto.Technology;
+        item.Category = dto.Category;
+        item.Status = dto.Status;
+        item.Order = dto.Order;
+
         await _context.SaveChangesAsync();
         return NoContent();
     }

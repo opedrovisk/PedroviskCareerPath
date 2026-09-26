@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PedroviskCareerPath.API.Models;
@@ -20,6 +21,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [EnableRateLimiting("login")]
     public ActionResult<LoginResponse> Login(LoginRequest request)
     {
         bool senhaValida = BCrypt.Net.BCrypt.Verify(request.Password, _options.PasswordHash);
@@ -49,12 +51,5 @@ public class AuthController : ControllerBase
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             ExpiresAt = expiresAt
         };
-    }
-
-    // TEMPORÁRIO — usar uma vez pra gerar o hash da sua senha, depois APAGAR este método
-    [HttpPost("generate-hash")]
-    public ActionResult<string> GenerateHash([FromBody] string plainPassword)
-    {
-        return BCrypt.Net.BCrypt.HashPassword(plainPassword);
     }
 }

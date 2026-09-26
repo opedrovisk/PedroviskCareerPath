@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedroviskCareerPath.API.Data;
+using PedroviskCareerPath.API.Dtos;
 using PedroviskCareerPath.API.Models;
 
 namespace PedroviskCareerPath.API.Controllers;
@@ -20,7 +21,7 @@ public class ContributionsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Contribution>>> GetAll()
     {
-        return await _context.Contributions.OrderByDescending(c => c.Date).ToListAsync();
+        return await _context.Contributions.OrderBy(c => c.Order).ToListAsync();
     }
 
     [HttpGet("{id}")]
@@ -33,8 +34,21 @@ public class ContributionsController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<Contribution>> Create(Contribution contribution)
+    public async Task<ActionResult<Contribution>> Create(ContributionDto dto)
     {
+        var contribution = new Contribution
+        {
+            Title = dto.Title,
+            Description = dto.Description,
+            Category = dto.Category,
+            Status = dto.Status,
+            Url = dto.Url,
+            Tags = dto.Tags,
+            Impacts = dto.Impacts,
+            Date = dto.Date,
+            Order = dto.Order,
+        };
+
         _context.Contributions.Add(contribution);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetById), new { id = contribution.Id }, contribution);
@@ -42,10 +56,21 @@ public class ContributionsController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize]
-    public async Task<IActionResult> Update(int id, Contribution contribution)
+    public async Task<IActionResult> Update(int id, ContributionDto dto)
     {
-        if (id != contribution.Id) return BadRequest();
-        _context.Entry(contribution).State = EntityState.Modified;
+        var contribution = await _context.Contributions.FindAsync(id);
+        if (contribution == null) return NotFound();
+
+        contribution.Title = dto.Title;
+        contribution.Description = dto.Description;
+        contribution.Category = dto.Category;
+        contribution.Status = dto.Status;
+        contribution.Url = dto.Url;
+        contribution.Tags = dto.Tags;
+        contribution.Impacts = dto.Impacts;
+        contribution.Date = dto.Date;
+        contribution.Order = dto.Order;
+
         await _context.SaveChangesAsync();
         return NoContent();
     }
