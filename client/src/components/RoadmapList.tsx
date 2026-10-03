@@ -13,18 +13,15 @@ const STATUS_LABEL: Record<RoadmapStatus, string> = {
 }
 
 const STATUS_CHIP: Record<RoadmapStatus, string> = {
-    Completed:
-        'bg-[#B7E0C0]/50 dark:bg-[#B7E0C0]/10 border-[#B7E0C0] dark:border-[#B7E0C0]/20 text-[#3D7A4C] dark:text-[#8FD69E]',
-    InProgress:
-        'bg-[#F6D374]/30 dark:bg-[#F6D374]/10 border-[#F0DFA0] dark:border-[#F6D374]/20 text-[#8A6D2E] dark:text-[#F6D374]',
-    Planned:
-        'bg-[#F5F2E8] dark:bg-[#1E1E27] border-[#F0EAD8] dark:border-[#2A2A35] text-[#5B5646] dark:text-[#C4C4C4]',
+    Completed: 'bg-success-soft/50 dark:bg-success-soft/10 border-success-soft dark:border-success-soft/20 text-success',
+    InProgress: 'bg-accent-yellow/30 dark:bg-accent-yellow/10 border-accent-yellow-soft dark:border-accent-yellow/20 text-warning-ink',
+    Planned: 'bg-surface-soft border-border text-ink-muted',
 }
 
 const STATUS_DOT: Record<RoadmapStatus, string> = {
-    Completed: 'bg-[#3D7A4C] dark:bg-[#8FD69E]',
-    InProgress: 'bg-[#8A6D2E] dark:bg-[#F6D374]',
-    Planned: 'bg-[#B0A98F] dark:bg-[#9A9A9A]',
+    Completed: 'bg-success',
+    InProgress: 'bg-warning-ink',
+    Planned: 'bg-ink-subtle',
 }
 
 const STATUS_ORDER: RoadmapStatus[] = ['Completed', 'InProgress', 'Planned']
